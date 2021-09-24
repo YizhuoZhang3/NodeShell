@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 process.stdout.write('prompt > ');
 
 // process.stdin.on('data', (data) => {
@@ -9,5 +10,11 @@ process.stdout.write('prompt > ');
 const pwdModule = require('./pwd');
 pwdModule();
 
-const ls = require('./ls')
+const ls = require('./ls');
 ls();
+
+process.stdin.on('data', (data) => {
+  const cat = require('./cat');
+  const arg = data.toString().split(" ")[1].trim();
+  cat(arg);
+ });
