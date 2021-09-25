@@ -1,20 +1,29 @@
-/*jshint esversion: 6 */
-process.stdout.write('prompt > ');
+const prompt = (data) => {
+  console.log(data);
+  process.stdout.write('> ');
+};
 
-// process.stdin.on('data', (data) => {
-//   const cmd = data.toString().trim();
-//   process.stdout.write('You typed: ' + cmd);
-//   process.stdout.write('\nprompt > ');
-// });
+const main = (data) => {
+  const entry = data.toString().trim();
+  const [command, arg] = entry.split(' ');
+  switch (command) {
+    case 'pwd':
+      require('./pwd')(prompt);
+      break;
+    case 'ls':
+      require('./ls')(prompt);
+      break;
+    case 'cat':
+      require('./cat')(arg, prompt);
+      break;
+    case 'curl':
+      require('./curl')(arg, prompt);
+      break;
+    default:
+      prompt('not found');
+  }
+};
 
-const pwdModule = require('./pwd');
-pwdModule();
+prompt('Welcome to Node Shell!');
+process.stdin.on('data', main);
 
-const ls = require('./ls');
-ls();
-
-process.stdin.on('data', (data) => {
-  const cat = require('./cat');
-  const arg = data.toString().split(" ")[1].trim();
-  cat(arg);
- });
